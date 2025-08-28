@@ -113,7 +113,7 @@
     <p>- mares67@hotmail.it – https://marcosieni.github.io/-virtualmate-site/privacy.html</p>
   </section>
 
-  <script>
+<script>
   const it = document.getElementById('it');
   const en = document.getElementById('en');
   const btnIt = document.getElementById('btn-it');
@@ -130,8 +130,14 @@
     document.documentElement.lang = isIt ? 'it' : 'en';
   }
 
-  // Default in base al browser: EN se il browser è in inglese, altrimenti IT
+  // Supporto a ?lang=it|en; se assente/invalid, default in base al browser (EN se inizia con 'en')
   (function () {
+    const params = new URLSearchParams(window.location.search);
+    const qlang = (params.get('lang') || '').toLowerCase();
+    if (qlang === 'it' || qlang === 'en') {
+      setLang(qlang);
+      return;
+    }
     const browserLang = (navigator.language || navigator.userLanguage || 'it').toLowerCase();
     const preferred = browserLang.startsWith('en') ? 'en' : 'it';
     setLang(preferred);
