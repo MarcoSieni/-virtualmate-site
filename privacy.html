@@ -114,22 +114,31 @@
   </section>
 
   <script>
-    const it = document.getElementById('it');
-    const en = document.getElementById('en');
-    const btnIt = document.getElementById('btn-it');
-    const btnEn = document.getElementById('btn-en');
-    function setLang(lang){
-      const isIt = lang === 'it';
-      it.style.display = isIt ? '' : 'none';
-      en.style.display = isIt ? 'none' : '';
-      btnIt.classList.toggle('active', isIt);
-      btnEn.classList.toggle('active', !isIt);
-      btnIt.setAttribute('aria-pressed', String(isIt));
-      btnEn.setAttribute('aria-pressed', String(!isIt));
-      document.documentElement.lang = isIt ? 'it' : 'en';
-    }
-    btnIt.addEventListener('click', () => setLang('it'));
-    btnEn.addEventListener('click', () => setLang('en'));
-  </script>
+  const it = document.getElementById('it');
+  const en = document.getElementById('en');
+  const btnIt = document.getElementById('btn-it');
+  const btnEn = document.getElementById('btn-en');
+
+  function setLang(lang){
+    const isIt = lang === 'it';
+    it.style.display = isIt ? '' : 'none';
+    en.style.display = isIt ? 'none' : '';
+    btnIt.classList.toggle('active', isIt);
+    btnEn.classList.toggle('active', !isIt);
+    btnIt.setAttribute('aria-pressed', String(isIt));
+    btnEn.setAttribute('aria-pressed', String(!isIt));
+    document.documentElement.lang = isIt ? 'it' : 'en';
+  }
+
+  // Default in base al browser: EN se il browser è in inglese, altrimenti IT
+  (function () {
+    const browserLang = (navigator.language || navigator.userLanguage || 'it').toLowerCase();
+    const preferred = browserLang.startsWith('en') ? 'en' : 'it';
+    setLang(preferred);
+  })();
+
+  btnIt.addEventListener('click', () => setLang('it'));
+  btnEn.addEventListener('click', () => setLang('en'));
+</script>
 </body>
 </html>
